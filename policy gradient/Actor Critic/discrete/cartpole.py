@@ -5,7 +5,7 @@ from agent_reward import Agent
 def main():
     env = gym.make("CartPole-v0")
     step_num = env.spec.timestep_limit
-    sample_num = 50
+    sample_num = 300
     num_episode = 300
 
     state_size = env.observation_space.shape[0]
@@ -21,8 +21,8 @@ def main():
             for t_timesteps in range(step_num):
                 env.render()
                 action = agent.choose_action(state)
-                next_state, _, done, info = env.step(action)
-                reward = -next_state[2]**2
+                next_state, reward, done, info = env.step(action)
+                #reward = -next_state[2]**2
                 agent.store(state, action, reward)
                 if done or t_timesteps == step_num-1:
                     agent.step_list.append(t_timesteps+1)

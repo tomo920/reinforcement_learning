@@ -5,7 +5,7 @@ from policy import Policy
 gamma = 1
 
 class Agent:
-    def __init__(self, state_size, action_size, action_high, action_low, step_num, sample_num):
+    def __init__(self, state_size, action_size, action_high, action_low, sample_num):
         sess = tf.Session()
         self.policy = Policy(sess, state_size, action_size, action_high, action_low, sample_num)
         self.state_batch = []
@@ -13,7 +13,6 @@ class Agent:
         self.reward_list = []
         self.step_list = []
         self.weight_bach = []
-        self.step_num = step_num
         self.sample_num = sample_num
         sess.run(tf.global_variables_initializer())
 

@@ -9,7 +9,7 @@ class Agent:
         sess = tf.Session()
         self.policy = Policy(sess, state_size, action_size, sample_num)
         self.state_batch = []
-        self.action_list = []
+        self.action_batch = []
         self.reward_list = []
         self.step_list = []
         self.weight_bach = []
@@ -21,11 +21,12 @@ class Agent:
 
     def store(self, state, action, reward):
         self.state_batch.append(state)
-        self.action_list.append(action)
+        self.action_batch.append(action)
         self.reward_list.append(reward)
 
     def train(self):
         state_batch = np.vstack(self.state_batch)
+        action_batch = np.vstack(self.action_batch)
         t = 0
         for i in range(self.sample_num):
             tlast = t+self.step_list[i]
@@ -36,9 +37,9 @@ class Agent:
                 self.weight_bach.append(weight)
                 t+=1
         weight_bach = np.vstack(self.weight_bach)
-        self.policy.train(state_batch, self.action_list, weight_bach)
+        self.policy.train(state_batch, action_batch, weight_bach)
         self.state_batch = []
-        self.action_list = []
+        self.action_batch = []
         self.reward_list = []
         self.step_list = []
         self.weight_bach = []
